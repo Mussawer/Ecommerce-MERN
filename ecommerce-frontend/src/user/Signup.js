@@ -12,7 +12,7 @@ const SignUp = () => {
   const [values, setValues] = useState({
     name: "",
     email: "",
-    password: "", 
+    password: "",
     error: "",
     success: false,
   });
@@ -49,7 +49,7 @@ const SignUp = () => {
     });
   };
 
-  const signUpForm = () => {
+  const signUpForm = () => (
     <form>
       <div className="form-group">
         <label className="text-muted">Name</label>
@@ -60,6 +60,7 @@ const SignUp = () => {
           value={name}
         />
       </div>
+
       <div className="form-group">
         <label className="text-muted">Email</label>
         <input
@@ -69,10 +70,11 @@ const SignUp = () => {
           value={email}
         />
       </div>
+
       <div className="form-group">
         <label className="text-muted">Password</label>
         <input
-          onChange={handleChange("passwor")}
+          onChange={handleChange("password")}
           type="password"
           className="form-control"
           value={password}
@@ -81,8 +83,8 @@ const SignUp = () => {
       <button onClick={clickSubmit} className="btn btn-primary">
         Submit
       </button>
-    </form>;
-  };
+    </form>
+  );
 
   const showError = () => (
     <div

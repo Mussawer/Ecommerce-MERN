@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 //we need link because we dont want the page to load every time we click the link
 //we need withrouter because we need the props history
 import { Link, withRouter } from "react-router-dom";
@@ -18,7 +18,7 @@ const Menu = ({ history }) => (
   <div>
     <ul className="nav nav-tabs bg-primary">
       <li className="nav-item">
-        <Link className="nav-link" style={isActive(history, "/")}>
+        <Link className="nav-link" style={isActive(history, "/")} to="/">
           Home
         </Link>
       </li>
@@ -26,16 +26,37 @@ const Menu = ({ history }) => (
       {!isAuthenticated() && (
         <Fragment>
           <li className="nav-item">
-            <Link className="nav-link" style={isActive(history, "/signin")}>
-              SignIn
+            <Link
+              className="nav-link"
+              style={isActive(history, "/signin")}
+              to="/signin"
+            >
+              Signin
             </Link>
           </li>
+
           <li className="nav-item">
-            <Link className="nav-link" style={isActive(history, "/signup")}>
-              SignUp
+            <Link
+              className="nav-link"
+              style={isActive(history, "/signup")}
+              to="/signup"
+            >
+              Signup
             </Link>
           </li>
         </Fragment>
+      )}
+
+      {isAuthenticated() && (
+        <li className="nav-item">
+          <Link
+            className="nav-link"
+            style={isActive(history, "/admin/dashboard")}
+            to="/dashboard"
+          >
+            Dashboard
+          </Link>
+        </li>
       )}
 
       {isAuthenticated() && (

@@ -47,7 +47,7 @@ const SignIn = () => {
     });
   };
 
-  const signInForm = () => {
+  const signInForm = () => (
     <form>
       <div className="form-group">
         <label className="text-muted">Email</label>
@@ -61,7 +61,7 @@ const SignIn = () => {
       <div className="form-group">
         <label className="text-muted">Password</label>
         <input
-          onChange={handleChange("passwor")}
+          onChange={handleChange("password")}
           type="password"
           className="form-control"
           value={password}
@@ -70,8 +70,8 @@ const SignIn = () => {
       <button onClick={clickSubmit} className="btn btn-primary">
         Submit
       </button>
-    </form>;
-  };
+    </form>
+  );
 
   const showError = () => (
     <div
