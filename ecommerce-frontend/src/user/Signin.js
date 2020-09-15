@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import Layout from "../core/Layout";
-import { signin, authenticate } from "../auth";
+import { signin, authenticate, isAuthenticated } from "../auth";
 const SignIn = () => {
   //need to grab the value as user types in we need to
   //put this value in the state anytime there is change in the state
@@ -10,8 +10,8 @@ const SignIn = () => {
   //stored in state and send it to backend so we cana save the user
   //usestate will be an object
   const [values, setValues] = useState({
-    email: "",
-    password: "",
+    email: "fahad",
+    password: "fahad@gmail.com",
     error: "",
     loading: false,
     redirectToReferrer: false,
@@ -19,6 +19,9 @@ const SignIn = () => {
 
   //Destructing the values
   const { email, password, loading, error, redirectToReferrer } = values;
+
+  //Destructing the user
+  const { user } = isAuthenticated();
 
   //method to grab the change in the values
   //this will be a higherOrder function a function returning another function
@@ -91,6 +94,13 @@ const SignIn = () => {
 
   const redirectUser = () => {
     if (redirectToReferrer) {
+      if (user && user.role === 1) {
+        return <Redirect to="/admin/dashboard" />;
+      } else {
+        return <Redirect to="/user/dashboard" />;
+      }
+    }
+    if (isAuthenticated()) {
       return <Redirect to="/" />;
     }
   };
