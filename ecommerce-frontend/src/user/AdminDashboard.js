@@ -28,7 +28,7 @@ const AdminDashboard = () => {
     );
   };
 
-  const AdminInfo = () => {
+  const adminInfo = () => {
     return (
       <div className="card mb-5">
         <h3 className="card-header">Admin Information</h3>
@@ -48,7 +48,7 @@ const AdminDashboard = () => {
       className="container-fluid"
     >
       <div className="row">
-        <div className="col-3">{admininks()}</div>
+        <div className="col-3">{adminLinks()}</div>
         <div className="col-9">{adminInfo()}</div>
       </div>
     </Layout>

@@ -1,5 +1,6 @@
 import React from "react";
 import Menu from "./Menu";
+import "../styles.css"
 
 //this componenet will accept the props like
 const Layout = ({
