@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 //we need withrouter because we need the props history
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth";
+import { itemTotal } from "./cartHelpers";
 //history is actual browser path
 //an path will be the path we pass
 const isActive = (history, path) => {
@@ -24,8 +25,22 @@ const Menu = ({ history }) => (
       </li>
 
       <li className="nav-item">
-        <Link className="nav-link" style={isActive(history, "/shop")} to="/shop">
+        <Link
+          className="nav-link"
+          style={isActive(history, "/shop")}
+          to="/shop"
+        >
           Shop
+        </Link>
+      </li>
+
+      <li className="nav-item">
+        <Link
+          className="nav-link"
+          style={isActive(history, "/cart")}
+          to="/cart"
+        >
+          Cart <sup><small className="cart-badge">{itemTotal()}</small></sup>
         </Link>
       </li>
 

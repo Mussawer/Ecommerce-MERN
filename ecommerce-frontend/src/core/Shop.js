@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
 import Card from "./Card";
-import { getCategories } from "./apiCore";
+import { getCategories, getFilteredProducts } from "./apiCore";
 import Checkbox from "./Checkbox";
 import { prices } from "./fixedPrices";
+import RadioBox from "./RadioBox";
 
 const Shop = () => {
   const [myFilters, setMyFilters] = useState({
@@ -12,6 +13,14 @@ const Shop = () => {
   //create state to hold the categories
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(false);
+  //storing skip and limits state to send in the backend
+  const [limit, setLimit] = useState(6);
+  //to load more products we need size state
+  //when we get filtered results we get the data which holds
+  //products and we get the size, the size of how many products are there
+  const [size, setSize] = useState(0);
+  const [skip, setSkip] = useState(0);
+  const [filteredResults, setFilteredResults] = useState([]);
 
   //load categories and set form data
   const init = () => {
@@ -24,9 +33,52 @@ const Shop = () => {
     });
   };
 
+  const loadFilterResults = (newFilters) => {
+    getFilteredProducts(skip, limit, newFilters).then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        //to set filtered results
+        //this will return the filtered results
+        setFilteredResults(data.data);
+        setSize(data.size);
+        setSkip(0);
+      }
+    });
+  };
+
+  const loadMore = () => {
+    let toSkip = skip + limit;
+    getFilteredProducts(toSkip, limit, myFilters.filters).then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        //to set filtered results
+        //this will return the filtered results
+        //we are goint to use rest operator to take results already in the
+        //state
+        setFilteredResults([...filteredResults, ...data.data]);
+        setSize(data.size);
+        setSkip(toSkip);
+      }
+    });
+  };
+
+  const loadMoreButton = () => {
+    return (
+      size > 0 &&
+      size >= limit && (
+        <button onClick={loadMore} className="btn btn-warning mb-5">
+          Load More
+        </button>
+      )
+    );
+  };
+
   //need to run this as the component mounts
   useEffect(() => {
     init();
+    loadFilterResults(skip, limit, myFilters.filter);
   }, []);
 
   //this method will expect 2 arguments one filters
@@ -36,8 +88,29 @@ const Shop = () => {
   const handleFilter = (filters, filterBy) => {
     const newFilters = { ...myFilters };
     newFilters.filters[filterBy] = filters;
+
+    if (filterBy == "price") {
+      //method to extract array value of the key
+      let priceValues = handlePrice(filters);
+      newFilters.filters[filterBy] = priceValues;
+    }
+
     setMyFilters(newFilters);
   };
+
+  const handlePrice = (value) => {
+    const data = prices;
+    let array = [];
+
+    for (let key in data) {
+      if (data[key]._id === parseInt(value)) {
+        //populate array
+        array = data[key].array;
+      }
+    }
+    return array;
+  };
+
   return (
     <Layout
       title="Shop Page"
@@ -53,8 +126,26 @@ const Shop = () => {
               handleFilter={(filters) => handleFilter(filters, "category")}
             />
           </ul>
+          <h4> Filter by Prices </h4>
+          <div>
+            <RadioBox
+              prices={prices}
+              handleFilter={(filters) => handleFilter(filters, "category")}
+            />
+          </div>
         </div>
-        <div className="col-8">right sidebar</div>
+        <div className="col-8">
+          <h2 className="mb-4">Products</h2>
+          <div className="row">
+            {filteredResults.map((product, i) => (
+              <div key={i} className="col-4 mb-3">
+                <Card product={product} />
+              </div>
+            ))}
+          </div>
+          <hr />
+          {loadMoreButton()}
+        </div>
       </div>
     </Layout>
   );

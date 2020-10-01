@@ -11,10 +11,12 @@ const {
   relatedProducts,
   listCategories,
   listBySearch,
-  photo
+  photo,
+  getAllProductsByParams
 } = require("../controllers/product");
 const { requireSignin, isAuth, isAdmin } = require("../controllers/auth");
 const { userById } = require("../controllers/user");
+const { getAllProductsByQueryParameters } = require("../../ecommerce-frontend/src/core/apiCore");
 
 router.get("/product/:productId", getProductById);
 //to create category we need user to be logged in
@@ -39,6 +41,7 @@ router.put(
 );
 
 router.get("/products", getAllProducts);
+router.get("/products/search", getAllProductsByParams);
 router.get("/products/related/:productId", relatedProducts);
 router.get("/products/categories", listCategories);
 router.post("/products/by/search", listBySearch);

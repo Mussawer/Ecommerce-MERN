@@ -39,7 +39,7 @@ const AddCategory = () => {
         <input
           type="text"
           className="form-control"
-          onChange={handleChnage}
+          onChange={handleChange}
           value={name}
           autoFocus
           required
