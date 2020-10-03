@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState } from "react";
 
 const RadioBox = ({ prices, handleFilters }) => {
   const [value, setValue] = useState(0);
@@ -8,18 +8,18 @@ const RadioBox = ({ prices, handleFilters }) => {
     //updating our own state as well because based on this
     //we will show active input
     setValue(event.target.value);
-  };
+  }
 
-  return prices.map((price, i) => (
+  return prices.map((p, i) => (
     <div key={i}>
       <input
-        onChange={C}
-        value={`$(price._id)`}
-        name={price}
+        onChange={handleChange}
+        value={`${p._id}`}
+        name={p}
         type="radio"
         className="mr-2 ml-4"
       />
-      <label className="form-check-label">{price.name}</label>
+      <label className="form-check-label">{p.name}</label>
     </div>
   ));
 };

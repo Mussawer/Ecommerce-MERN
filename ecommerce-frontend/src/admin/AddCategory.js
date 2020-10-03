@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
-import { createCatefory } from "./apiAdmin";
+import { createCategory } from "./apiAdmin";
 
 const AddCategory = () => {
   const [name, setName] = useState("");
@@ -22,7 +22,7 @@ const AddCategory = () => {
     setError("");
     setSuccess(false);
     //make request to api to create category
-    createCatefory(user._id, token, { name }).then((data) => {
+    createCategory(user._id, token, { name }).then((data) => {
       if (data.error) {
         setError(true);
       } else {

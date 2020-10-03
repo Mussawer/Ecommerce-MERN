@@ -3,8 +3,8 @@ import Layout from "./Layout";
 import Card from "./Card";
 import { getCategories, getFilteredProducts } from "./apiCore";
 import Checkbox from "./Checkbox";
-import { prices } from "./fixedPrices";
 import RadioBox from "./RadioBox";
+import { prices } from "./fixedPrices";
 
 const Shop = () => {
   const [myFilters, setMyFilters] = useState({
@@ -18,8 +18,8 @@ const Shop = () => {
   //to load more products we need size state
   //when we get filtered results we get the data which holds
   //products and we get the size, the size of how many products are there
-  const [size, setSize] = useState(0);
   const [skip, setSkip] = useState(0);
+  const [size, setSize] = useState(0);
   const [filteredResults, setFilteredResults] = useState([]);
 
   //load categories and set form data
@@ -33,7 +33,8 @@ const Shop = () => {
     });
   };
 
-  const loadFilterResults = (newFilters) => {
+  
+  const loadFilteredResults = (newFilters) => {
     getFilteredProducts(skip, limit, newFilters).then((data) => {
       if (data.error) {
         setError(data.error);
@@ -49,6 +50,7 @@ const Shop = () => {
 
   const loadMore = () => {
     let toSkip = skip + limit;
+    // console.log(newFilters);
     getFilteredProducts(toSkip, limit, myFilters.filters).then((data) => {
       if (data.error) {
         setError(data.error);
@@ -69,7 +71,7 @@ const Shop = () => {
       size > 0 &&
       size >= limit && (
         <button onClick={loadMore} className="btn btn-warning mb-5">
-          Load More
+          Load more
         </button>
       )
     );
@@ -78,23 +80,25 @@ const Shop = () => {
   //need to run this as the component mounts
   useEffect(() => {
     init();
-    loadFilterResults(skip, limit, myFilters.filter);
+    loadFilteredResults(skip, limit, myFilters.filters);
   }, []);
+
 
   //this method will expect 2 arguments one filters
   //filters will be categories and price
   //second filterBy
   //this method will be passed as props to Checkbox component
-  const handleFilter = (filters, filterBy) => {
+  const handleFilters = (filters, filterBy) => {
+    // console.log("SHOP", filters, filterBy);
     const newFilters = { ...myFilters };
     newFilters.filters[filterBy] = filters;
 
-    if (filterBy == "price") {
-      //method to extract array value of the key
+    if (filterBy === "price") {
       let priceValues = handlePrice(filters);
       newFilters.filters[filterBy] = priceValues;
     }
-
+    //method to extract array value of the key
+    loadFilteredResults(myFilters.filters);
     setMyFilters(newFilters);
   };
 
@@ -114,26 +118,28 @@ const Shop = () => {
   return (
     <Layout
       title="Shop Page"
-      description="Search andfind books of your choice "
+      description="Search and find books of your choice"
       className="container-fluid"
     >
       <div className="row">
         <div className="col-4">
-          <h4> Filter by Categories </h4>
+          <h4>Filter by categories</h4>
           <ul>
             <Checkbox
               categories={categories}
-              handleFilter={(filters) => handleFilter(filters, "category")}
+              handleFilters={(filters) => handleFilters(filters, "category")}
             />
           </ul>
-          <h4> Filter by Prices </h4>
+
+          <h4>Filter by price range</h4>
           <div>
             <RadioBox
               prices={prices}
-              handleFilter={(filters) => handleFilter(filters, "category")}
+              handleFilters={(filters) => handleFilters(filters, "price")}
             />
           </div>
         </div>
+
         <div className="col-8">
           <h2 className="mb-4">Products</h2>
           <div className="row">

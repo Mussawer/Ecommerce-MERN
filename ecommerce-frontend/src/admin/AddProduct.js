@@ -4,7 +4,7 @@ import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
 import { createProduct, getCategories } from "./apiAdmin";
 
-const AddProduct = (user, token, product) => {
+const AddProduct = () => {
   const { user, token } = isAuthenticated();
   const { values, setValues } = useState({
     name: "",
@@ -195,7 +195,7 @@ const AddProduct = (user, token, product) => {
     </div>
   );
 
-  showLoading = () =>
+  const showLoading = () =>
     loading && (
       <div className="alert alert-success">
         <h2>loading..</h2>

@@ -16,7 +16,6 @@ const {
 } = require("../controllers/product");
 const { requireSignin, isAuth, isAdmin } = require("../controllers/auth");
 const { userById } = require("../controllers/user");
-const { getAllProductsByQueryParameters } = require("../../ecommerce-frontend/src/core/apiCore");
 
 router.get("/product/:productId", getProductById);
 //to create category we need user to be logged in

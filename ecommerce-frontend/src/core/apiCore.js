@@ -1,6 +1,5 @@
 import { API } from "../config";
 import queryString from "query-string";
-import product from "../../../ecommerce-backend/models/product";
 
 export const getProducts = (sortBy) => {
   return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=6`, {
@@ -9,7 +8,7 @@ export const getProducts = (sortBy) => {
     .then((response) => {
       return response.json();
     })
-    .catch((error) => console.log(error));
+    .catch((err) => console.log(err));
 };
 
 export const getCategories = () => {
@@ -19,7 +18,7 @@ export const getCategories = () => {
     .then((response) => {
       return response.json();
     })
-    .catch((error) => console.log(error));
+    .catch((err) => console.log(err));
 };
 
 export const getFilteredProducts = (skip, limit, filters = {}) => {
@@ -32,7 +31,7 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
   //We can use Axios as well
   //first argument is url
   //second argument is this object
-  return fetch(`${API}/product/by/search`, {
+  return fetch(`${API}/products/by/search`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -45,22 +44,23 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
     .then((response) => {
       return response.json();
     })
-    .catch((error) => {
-      console.log(error);
+    .catch((err) => {
+      console.log(err);
     });
 };
 
 //params will be categoryId and search
 export const getProductsByQueryParameters = (params) => {
-  //to sen params in the request as it is we use query-string
-  const query = queryString.stringify(params)
+  //to send params in the request as it is we use query-string
+  const query = queryString.stringify(params);
+  console.log("query", query);
   return fetch(`${API}/products/search?${query}`, {
     method: "GET",
   })
     .then((response) => {
       return response.json();
     })
-    .catch((error) => console.log(error));
+    .catch((err) => console.log(err));
 };
 
 export const getProductById = (productId) => {
@@ -70,7 +70,7 @@ export const getProductById = (productId) => {
     .then((response) => {
       return response.json();
     })
-    .catch((error) => console.log(error));
+    .catch((err) => console.log(err));
 };
 
 export const listRelatedProducts = (productId) => {
@@ -80,5 +80,5 @@ export const listRelatedProducts = (productId) => {
     .then((response) => {
       return response.json();
     })
-    .catch((error) => console.log(error));
+    .catch((err) => console.log(err));
 };

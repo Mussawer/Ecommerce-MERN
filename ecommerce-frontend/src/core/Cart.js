@@ -54,13 +54,14 @@ const Cart = () => {
         <div className="col-6">
           {items.length > 0 ? showItems(items) : noItemsMessage()}
         </div>
-      </div>
-
-      <div className="col-6">
-        <h2 className="mb-4">Cart Ssummary</h2>
-        <hr/>
-        <Checkout products={items}/>
+        <div className="col-6">
+          <h2 className="mb-4">Cart Summary</h2>
+          <hr />
+          <Checkout products={items} />
+        </div>
       </div>
     </Layout>
   );
 };
+
+export default Cart;

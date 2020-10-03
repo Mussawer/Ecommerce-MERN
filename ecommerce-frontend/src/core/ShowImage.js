@@ -1,4 +1,4 @@
-import react from "react";
+import React from "react";
 import { API } from "../config";
 
 //this function will takes props
