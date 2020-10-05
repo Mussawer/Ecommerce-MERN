@@ -1,4 +1,4 @@
-const { Order, CartItem } = require("../models/order");
+const { Order } = require("../models/order");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 
 exports.orderById = (req, res, next, id) => {
