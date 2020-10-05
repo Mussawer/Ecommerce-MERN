@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import ShowImage from "./ShowImage";
-import moment from 'moment';
+import moment from "moment";
 import { addItem, updateItem, removeItem } from "./cartHelpers";
 
 const Card = ({
@@ -18,7 +18,7 @@ const Card = ({
     return (
       showViewProductButton && (
         <Link to={`/product/${product._id}`} className="mr-2">
-          <button className="btn btn-outline-primary mt-2 mb-2">
+          <button className="btn btn-outline-primary mt-2 mb-2 card-btn-1">
             View Product
           </button>
         </Link>
@@ -41,14 +41,12 @@ const Card = ({
   const showAddToCartButton = (addToCartButton) => {
     return (
       addToCartButton && (
-        <Link>
-          <button
-            onClick={addToCart}
-            className="btn btn-outline-warning mt-2 mb-2"
-          >
-            Add to Cart
-          </button>
-        </Link>
+        <button
+          onClick={addToCart}
+          className="btn btn-outline-warning mt-2 mb-2 card-btn-1"
+        >
+          Add to Cart
+        </button>
       )
     );
   };
@@ -77,13 +75,17 @@ const Card = ({
   };
 
   const handleChange = (productId) => (event) => {
-    setCount(event.target.value < 1 ? 1 : event.target.value);
+    if (event.target.value < 1) {
+      setCount(1);
+    } else {
+      setCount(event.target.value);
+    }
     if (event.target.value >= 1) {
       updateItem(productId, event.target.value);
     }
   };
 
-  const showCartUpdateOptions = () => {
+  const showCartUpdateOptions = (cartUpdate) => {
     return (
       cartUpdate && (
         <div>
@@ -104,18 +106,18 @@ const Card = ({
   };
 
   return (
-    <div className="card">
-      <div className="card-header name">{product.name}</div>
+    <div className="card ">
+      <div className="card-header card-header-1 ">{product.name}</div>
       <div className="card-body">
         {shouldRedirect(redirect)}
         <ShowImage item={product} url="product" />
-        <p classname="lead mt-2">{product.description}</p>
-        <p classname="black-10">${product.price}</p>
-        <p classname="black-9">
+        <p className="card-p  mt-2">{product.description.substring(0, 100)} </p>
+        <p className="card-p black-10">$ {product.price}</p>
+        <p className="black-9">
           Category: {product.category && product.category.name}
         </p>
-        <p classname="black-8">
-          Added On {moment(product.created_at).fromNow()}
+        <p className="black-8">
+          Added on {moment(product.createdAt).fromNow()}
         </p>
         {showStock(product.quantity)}
         <br />

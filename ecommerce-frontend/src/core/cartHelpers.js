@@ -60,11 +60,13 @@ export const updateItem = (productId, count) => {
     if (localStorage.getItem("cart")) {
       cart = JSON.parse(localStorage.getItem("cart"));
     }
+
     cart.map((product, i) => {
       if (product._id === productId) {
         cart[i].count = count;
       }
     });
+
     localStorage.setItem("cart", JSON.stringify(cart));
   }
 };
@@ -83,4 +85,11 @@ export const removeItem = (productId) => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }
   return cart;
+};
+
+export const emptyCart = (next) => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("cart");
+    next();
+  }
 };

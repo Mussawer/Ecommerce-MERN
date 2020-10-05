@@ -57,3 +57,47 @@ export const getCategories = () => {
     })
     .catch((error) => console.log(error));
 };
+
+export const getAllOrders = (userId, token) => {
+  return fetch(`${API}/orders/getAll/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => console.log(error));
+};
+
+export const getStatusValues = (userId, token) => {
+  return fetch(`${API}/orders/status-values/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => console.log(error));
+};
+
+export const updateOrderStatus = (userId, token, orderId, status) => {
+  return fetch(`${API}/orders/${orderId}/status/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    }, 
+    body: JSON.stringify({ status, orerId }),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => console.log(error));
+};

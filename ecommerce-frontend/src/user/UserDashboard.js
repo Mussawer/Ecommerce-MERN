@@ -18,7 +18,7 @@ const Dashboard = () => {
             </Link>
           </li>
           <li className="list-group-item">
-            <Link className="nav-link" to="/profile/update">
+            <Link className="nav-link" to={`/profile/${_id}`}>
               User Profile
             </Link>
           </li>
@@ -57,15 +57,13 @@ const Dashboard = () => {
       description={`Good Day ${name}!`}
       className="container-fluid"
     >
-        <div className="row">
-            <div className="col-3">
-                {userLinks()}
-            </div>
-            <div className="col-9">
-                {userInfo()}
-                {purchaseHistory()}
-            </div>
+      <div className="row">
+        <div className="col-3">{userLinks()}</div>
+        <div className="col-9">
+          {userInfo()}
+          {purchaseHistory()}
         </div>
+      </div>
     </Layout>
   );
 };

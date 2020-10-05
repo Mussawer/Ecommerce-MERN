@@ -25,7 +25,7 @@ exports.getUserById = (req, res) => {
 //so the userId is in request that we want to remove
 exports.updateUser = (req, res) => {
   req.body.role = 0; // role will always be 0
-  
+
   User.findOneAndUpdate(
     { _id: req.profile._id },
     { $set: req.body },
@@ -39,6 +39,36 @@ exports.updateUser = (req, res) => {
       user.hashed_password = undefined;
       user.salt = undefined;
       res.json(user);
+    }
+  );
+};
+
+exports.addOrderToUserHistory = (req, res, next) => {
+  let history = [];
+
+  req.body.order.products.forEach((item) => {
+    history.push({
+      _id: item._id,
+      name: item.name,
+      description: item.description,
+      category: item.category,
+      quantity: item.count,
+      transaction_id: req.body.order.transaction_id,
+      amount: req.body.order.amount,
+    });
+  });
+  User.findOneAndUpdate(
+    { _id: req.profile._id },
+    { $push: { history: history } },
+    { new: true },
+    (error, data) => {
+      if (error) {
+        res.status(400),
+          json({
+            error: "Could not update user purchase history",
+          });
+      }
+      next();
     }
   );
 };
