@@ -13,7 +13,7 @@ router.get('/secret', requireSignin, (req, res) => {
 
 router.get('/user/:userId', requireSignin, isAuth, getUserById);
 router.put('/user/:userId', requireSignin, isAuth, updateUser);
-router.put('/orders/by/user/:userId', requireSignin, isAuth, purchaseHistory);
+router.get('/orders/by/user/:userId', requireSignin, isAuth, purchaseHistory);
 
 router.param('userId', userById);
 

@@ -63,14 +63,14 @@ const Checkout = ({ products, createOrder }) => {
     }, 0);
   };
 
-  let deliveryAddress = data.address
+  let deliveryAddress = data.address;
 
   const buy = () => {
     setData({ loading: true });
     //send the nonce to your server
     //nonce = data.instance.requestPaymentMethod()
     let nonce;
-    let = data.instance
+    let getNonce = data.instance
       .requestPaymentMethod()
       .then((data) => {
         nonce = data.nonce;
@@ -90,8 +90,7 @@ const Checkout = ({ products, createOrder }) => {
             };
 
             createOrder(userId, token, createOrderData).then((response) => {
-              setData({ ...data, error: error.message });
-              emptyCart(() => { 
+              emptyCart(() => {
                 setData({ loading: false, success: true });
               });
             });
@@ -101,7 +100,7 @@ const Checkout = ({ products, createOrder }) => {
           });
       })
       .catch((error) => {
-        setData({ ...data, success: response.success });
+        setData({ loading: false });
       });
   };
 
@@ -111,7 +110,7 @@ const Checkout = ({ products, createOrder }) => {
     setData({ ...data, address: event.target.value });
   };
 
-  const showDropIn = () => {
+  const showDropIn = () => (
     <div onBlur={() => setData({ ...data, error: "" })}>
       {data.clientToken !== null && products.length > 0 ? (
         <div>
@@ -135,8 +134,8 @@ const Checkout = ({ products, createOrder }) => {
           </button>
         </div>
       ) : null}
-    </div>;
-  };
+    </div>
+  );
 
   const showError = (error) => (
     <div

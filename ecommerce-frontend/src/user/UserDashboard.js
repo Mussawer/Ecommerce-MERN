@@ -24,7 +24,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    init(_Id, token);
+    init(_id, token);
   }, []);
 
   const userLinks = () => {
@@ -71,7 +71,7 @@ const Dashboard = () => {
                 h.products.map((product, pIndex) => {
                   return (
                     <div>
-                      <hr/>
+                      <hr />
                       <div key={pIndex}>
                         <h6>Product Name: {product.name}</h6>
                         <h6>Product Price: ${product.price}</h6>

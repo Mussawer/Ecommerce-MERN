@@ -8,11 +8,13 @@ import moment from "moment";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [statusValues, setStatusValues] = useState([]);
+
   const { user, token } = isAuthenticated();
 
   const loadOrders = () => {
     getAllOrders(user._id, token).then((data) => {
       if (data.error) {
+        console.log(data.error);
       } else {
         setOrders(data);
       }
@@ -22,6 +24,7 @@ const Orders = () => {
   const loadStatusValues = () => {
     getStatusValues(user._id, token).then((data) => {
       if (data.error) {
+        console.log(data.error);
       } else {
         setStatusValues(data);
       }
@@ -39,7 +42,7 @@ const Orders = () => {
         <h1 className="text-danger display-2">Total orders: {orders.length}</h1>
       );
     } else {
-      return <h1 className="text-danger">No Orders</h1>;
+      return <h1 className="text-danger">No orders</h1>;
     }
   };
 
@@ -53,44 +56,43 @@ const Orders = () => {
   );
 
   const handleStatusChange = (event, orderId) => {
-    updateOrderStatus(user._id, token, orderId, event.target.value).then(
-      (data) => {
-        if (data.error) {
-          console.log("Status Update failed");
-        } else {
-          loadOrders();
-        }
+    updateOrderStatus(user._id, token, orderId, event.target.value).then((data) => {
+      if (data.error) {
+        console.log("Status update failed");
+      } else {
+        loadOrders();
       }
-    );
+    });
   };
 
-  const showStatus = (o) => {
+  const showStatus = (order) => (
     <div className="form-group">
-      <h3 className="mark mb-4">
-        <select
-          className="form-control"
-          onChange={(event) => handleStatusChange(event, o._id)}
-        >
-          <option>Update Status</option>
-          {statusValues.map((status, i) => (
-            <option key={i} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
-      </h3>
-    </div>;
-  };
+      <h3 className="mark mb-4">Status: {order.status}</h3>
+      <select
+        className="form-control"
+        onChange={(event) => handleStatusChange(event, order._id)}
+      >
+        <option>Update Status</option>
+        {statusValues.map((status, index) => (
+          <option key={index} value={status}>
+            {status}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
 
   return (
     <Layout
       title="Orders"
-      description={`Good Day ${user.name}, You can manage all the orders here`}
+      description={`G'day ${user.name}, you can manage all the orders here`}
+      className="container-fluid"
     >
       <div className="row">
         <div className="col-md-8 offset-md-2">
           {showOrdersLength()}
-          {orders.map((o, oIndex) => {
+
+          {orders.map((order, oIndex) => {
             return (
               <div
                 className="mt-5"
@@ -98,41 +100,43 @@ const Orders = () => {
                 style={{ borderBottom: "5px solid indigo" }}
               >
                 <h2 className="mb-5">
-                  <span className="bg-primary"></span>
+                  <span className="bg-primary">Order ID: {order._id}</span>
                 </h2>
+
                 <ul className="list-group mb-2">
-                  <li className="list-group-item">{showStatus(o)}</li>
+                  <li className="list-group-item">{showStatus(order)}</li>
                   <li className="list-group-item">
-                    TransactionID: {o.transaction_id}
+                    Transaction ID: {order.transaction_id}
                   </li>
-                  <li className="list-group-item">Amount: ${o.amount}</li>
+                  <li className="list-group-item">Amount: ${order.amount}</li>
+                  <li className="list-group-item">Ordered by: {order.user.name}</li>
                   <li className="list-group-item">
-                    Ordered by: ${o.user.name}
-                  </li>
-                  <li className="list-group-item">
-                    Ordered on: ${moment(o.createdAt).fromNow()}
+                    Ordered on: {moment(order.createdAt).fromNow()}
                   </li>
                   <li className="list-group-item">
-                    Delivery Address: ${o.address}
+                    Delivery address: {order.address}
                   </li>
                 </ul>
 
                 <h3 className="mt-4 mb-4 font-italic">
-                  Total products in the order: {o.products.length}
+                  Total products in the order: {order.products.length}
                 </h3>
 
-                {o.products.map((p, pIndex) => {
+                {order.products.map((p, pIndex) => (
                   <div
                     className="mb-4"
                     key={pIndex}
-                    style={{ padding: "20px", border: "1px solid indigo" }}
+                    style={{
+                      padding: "20px",
+                      border: "1px solid indigo",
+                    }}
                   >
                     {showInput("Product name", p.name)}
                     {showInput("Product price", p.price)}
                     {showInput("Product total", p.count)}
                     {showInput("Product Id", p._id)}
-                  </div>;
-                })}
+                  </div>
+                ))}
               </div>
             );
           })}

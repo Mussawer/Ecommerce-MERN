@@ -48,7 +48,7 @@ const ManageProducts = () => {
           <h2 className="text-center">Total {products.length} products</h2>
           <hr />
           <ul className="list-group">
-            {products.map((product, i) => {
+            {products.map((product, i) => (
               <li
                 key={i}
                 className="list-group-item d-flex justify-content-between align-items-center"
@@ -58,13 +58,13 @@ const ManageProducts = () => {
                   <span className="badge badge-warning badge-pill">Update</span>
                 </Link>
                 <span
-                  onClick={() => destroy(product._Id)}
+                  onClick={() => destroy(product._id)}
                   className="badge badge-danger badge-pill"
                 >
                   Delete
                 </span>
-              </li>;
-            })}
+              </li>
+            ))}
           </ul>
         </div>
       </div>

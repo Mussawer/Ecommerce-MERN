@@ -9,22 +9,22 @@ const AddCategory = () => {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  //destructure user and token from localstorage
+  // destructure user and token from localstorage
   const { user, token } = isAuthenticated();
 
-  const handleChange = (event) => {
+  const handleChange = (e) => {
     setError("");
-    setName(event.target.value);
+    setName(e.target.value);
   };
 
-  const clickSubmit = (event) => {
-    event.preventDefault();
+  const clickSubmit = (e) => {
+    e.preventDefault();
     setError("");
     setSuccess(false);
-    //make request to api to create category
+    // make request to api to create category
     createCategory(user._id, token, { name }).then((data) => {
       if (data.error) {
-        setError(true);
+        setError(data.error);
       } else {
         setError("");
         setSuccess(true);
@@ -32,7 +32,7 @@ const AddCategory = () => {
     });
   };
 
-  const newCategoryForm = () => (
+  const newCategoryFom = () => (
     <form onSubmit={clickSubmit}>
       <div className="form-group">
         <label className="text-muted">Name</label>
@@ -71,15 +71,15 @@ const AddCategory = () => {
 
   return (
     <Layout
-      title="Add a New Category"
-      description={`Good Day ${user.name}, ready to add a new category?`}
+      title="Add a new category"
+      description={`G'day ${user.name}, ready to add a new category?`}
     >
       <div className="row">
         <div className="col-md-8 offset-md-2">
-          {showSuccess}
-          {showError}
-          {newCategoryForm}
-          {goBack}
+          {showSuccess()}
+          {showError()}
+          {newCategoryFom()}
+          {goBack()}
         </div>
       </div>
     </Layout>

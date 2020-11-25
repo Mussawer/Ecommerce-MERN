@@ -5,21 +5,21 @@ import { createProduct, getCategories } from "./apiAdmin";
 
 const AddProduct = () => {
   const { user, token } = isAuthenticated();
-  const { values, setValues } = useState({
-    name: "",
-    description: "",
-    price: "",
+  const [values, setValues] = useState({
+    name: '',
+    description: '',
+    price: '',
     categories: [],
-    category: "",
-    shipping: "",
-    quantity: "",
-    photo: "",
+    category: '',
+    shipping: '',
+    quantity: '',
+    photo: '',
     loading: false,
-    error: "",
-    createdProduct: "",
+    error: '',
+    createdProduct: '',
     redirectToProfile: false,
-    formData: "",
-  });
+    formData: ''
+});
 
   const {
     name,
@@ -42,7 +42,11 @@ const AddProduct = () => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setValues({ ...values, categories: data, formData: new FormData() });
+        setValues({
+          ...values,
+          categories: data,
+          formData: new FormData(),
+        });
       }
     });
   };
@@ -56,7 +60,7 @@ const AddProduct = () => {
   //the useEffect runs this
   //this a kind of replacement to the lifecyscle methods we used to use in the class component
   useEffect(() => {
-    setValues({ ...values, formData: new FormData() });
+    init();
   }, []);
 
   const handleChange = (name) => (event) => {

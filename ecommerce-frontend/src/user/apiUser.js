@@ -1,6 +1,6 @@
 import { API } from "../config";
 
-export const getUserById = (userId, token) => {
+export const read = (userId, token) => {
   return fetch(`${API}/user/${userId}`, {
     method: "GET",
     headers: {
@@ -12,10 +12,10 @@ export const getUserById = (userId, token) => {
     .then((response) => {
       return response.json();
     })
-    .catch((error) => console.log(error));
+    .catch((err) => console.log(err));
 };
 
-export const updateUserProfile = (userId, token, user) => {
+export const update = (userId, token, user) => {
   return fetch(`${API}/user/${userId}`, {
     method: "PUT",
     headers: {
@@ -28,14 +28,14 @@ export const updateUserProfile = (userId, token, user) => {
     .then((response) => {
       return response.json();
     })
-    .catch((error) => console.log(error));
+    .catch((err) => console.log(err));
 };
 
 //update user in localStorage
 export const updateUser = (user, next) => {
   if (typeof window !== "undefined") {
     if (localStorage.getItem("jwt")) {
-      let auth = Json.parse(localStorage.getItem("jwt"));
+      let auth = JSON.parse(localStorage.getItem("jwt"));
       auth.user = user;
       localStorage.setItem("jwt", JSON.stringify(auth));
       next();
@@ -44,16 +44,16 @@ export const updateUser = (user, next) => {
 };
 
 export const getPurchaseHistory = (userId, token) => {
-    return fetch(`${API}/orders/by/user/${userId}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+  return fetch(`${API}/orders/by/user/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      return response.json();
     })
-      .then((response) => {
-        return response.json();
-      })
-      .catch((error) => console.log(error));
-  };
+    .catch((err) => console.log(err));
+};
